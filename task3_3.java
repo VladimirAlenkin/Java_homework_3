@@ -1,51 +1,27 @@
 // Задача 3. Задан целочисленный список ArrayList. Найти минимальное, максимальное и среднее из этого списка.
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class task3_3 {
-    public static int[] mergeSort(int[] sortArr) {
-        int[] buffer1 = Arrays.copyOf(sortArr, sortArr.length);
-        int[] buffer2 = new int[sortArr.length];
-        int[] result = mergeSortInner(buffer1, buffer2, 0, sortArr.length);
-        return result;
-    }
+    public static void main(String[] args) {
+        Random rnd = new Random();
+        ArrayList<Integer> arrlst = new ArrayList<Integer>();
+        for (int i=0;i<15;i++){
+            arrlst.add(rnd.nextInt(0,10));
+        }
+        System.out.println(arrlst.toString());
+        int max = arrlst.get(0);
+        int min = arrlst.get(0);
+        int sum = 0;
+        for(int i=0;i<arrlst.size();i++){
+            if (arrlst.get(i)>max) max = arrlst.get(i);
+            if (arrlst.get(i)<min) min = arrlst.get(i);
+            sum=sum+arrlst.get(i);
+        }
+        System.out.println("Максимальный элемент списка: " + max);
+        System.out.println("Минимальный элемент списка: " + min);
+        System.out.printf("Среднее арифметическое элементов: %.3f\n",((double)sum/arrlst.size()));
 
-    public static int[] mergeSortInner(int[] buffer1, int[] buffer2, int startIndex, int endIndex) {
-        if (startIndex >= endIndex - 1) {
-            return buffer1;
-        }
-
-        //уже отсортирован
-        int middle = startIndex + (endIndex - startIndex) / 2;
-        int[] sorted1 = mergeSortInner(buffer1, buffer2, startIndex, middle);
-        int[] sorted2 = mergeSortInner(buffer1, buffer2, middle, endIndex);
-
-        //слияние
-        int index1 = startIndex;
-        int index2 = middle;
-        int destIndex = startIndex;
-        int[] result = sorted1 == buffer1 ? buffer2 : buffer1;
-        while (index1 < middle && index2 < endIndex) {
-            result[destIndex++] = sorted1[index1] < sorted2[index2]
-                    ? sorted1[index1++] : sorted2[index2++];
-        }
-        while (index1 < middle) {
-            result[destIndex++] = sorted1[index1++];
-        }
-        while (index2 < endIndex) {
-            result[destIndex++] = sorted2[index2++];
-        }
-        return result;
-    }
-    public static void main(String args[]) {
-        int[] sortArr = {7, 2, 4, 5, 0, -7, 6, 1, 8};
-        int[] result = mergeSort(sortArr);
-        System.out.println("Первоначальный список: " + Arrays.toString(sortArr));
-        // System.out.println("Отсортированный список: " + Arrays.toString(result));
-        System.out.println("Минимальное значение: " + result[0]);
-        
-        System.out.println("Максимальное значение: " + result[result.length-1]);
-        
-        System.out.println("Среднее значение: " + (double)Arrays.stream(result).sum()/result.length);
     }
 }
